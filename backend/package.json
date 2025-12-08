@@ -1,0 +1,24 @@
+{
+  "name": "routexpert-backend",
+  "version": "1.0.0",
+  "description": "Truck fleet trip, fuel and maintenance tracking application",
+  "keywords": [
+    "Manage",
+    "Trucks"
+  ],
+  "homepage": "https://github.com/YassineElHassani/RouteXpert#readme",
+  "bugs": {
+    "url": "https://github.com/YassineElHassani/RouteXpert/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YassineElHassani/RouteXpert.git"
+  },
+  "license": "ISC",
+  "author": "Yassine El Hassani",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  }
+}
