@@ -1,5 +1,5 @@
 # backend/Dockerfile
-FROM node:18-alpine
+FROM node:25-alpine
 
 WORKDIR /usr/src/app
 
