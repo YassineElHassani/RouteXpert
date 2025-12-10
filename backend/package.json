@@ -2,7 +2,12 @@
   "name": "routexpert-backend",
   "version": "1.0.0",
   "description": "Truck fleet trip, fuel and maintenance tracking application",
-  "keywords": [ "fleet", "management", "logistics","Trucks" ],
+  "keywords": [
+    "fleet",
+    "management",
+    "logistics",
+    "Trucks"
+  ],
   "homepage": "https://github.com/YassineElHassani/RouteXpert#readme",
   "bugs": {
     "url": "https://github.com/YassineElHassani/RouteXpert/issues"
@@ -31,6 +36,7 @@
     "mongoose": "^9.0.1"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "jest": "^30.2.0",
     "nodemon": "^3.1.11",
     "supertest": "^7.1.4"

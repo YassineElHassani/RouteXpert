@@ -12,37 +12,41 @@ const generateToken = (id) => {
 // Register a new user(Driver)
 // POST /api/auth/register
 exports.register = async (req, res, next) => {
-    try {
-        const { name, email, password, role, phone } = req.body;
+  try {
+    const { name, email, password, role, phone } = req.body;
 
-        const userExists = await User.findOne({ email });
-        if (userExists) {
-            return res.status(400).json({ message: 'User already exists' });
-        }
-
-        const user = await User.create({
-            name,
-            email,
-            password,
-            role,
-            phone,
-        });
-
-        const token = generateToken(user._id);
-
-        res.status(201).json({
-            success: true,
-            token,
-            user: {
-                id: user._id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-            },
-        });
-    } catch (error) {
-        next(error);
+    if (role === 'admin') {
+      return res.status(403).json({ message: 'Admin creation not allowed via public register' });
     }
+
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    const user = await User.create({
+      name,
+      email,
+      password,
+      role: role || 'driver',
+      phone,
+    });
+
+    const token = generateToken(user._id);
+
+    res.status(201).json({
+      success: true,
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 // Login user

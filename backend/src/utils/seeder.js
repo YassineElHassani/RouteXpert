@@ -4,6 +4,7 @@ const connectDB = require('../config/database');
 const User = require('../models/User');
 const Truck = require('../models/Truck');
 const Trailer = require('../models/Trailer');
+const Trip = require('../models/Trip');
 
 const seedData = async () => {
   try {
@@ -31,8 +32,16 @@ const seedData = async () => {
       phone: '+212600000001',
     });
 
+    const driver2 = await User.create({
+      name: 'Driver two',
+      email: 'driver2@routexpert.com',
+      password: 'driver123',
+      role: 'driver',
+      phone: '+212600000002',
+    });
+
     console.log('|=> Creating trucks...');
-    await Truck.create([
+    const trucks = await Truck.create([
       {
         plateNumber: 'ABC-1234',
         brand: 'Mercedes',
@@ -60,7 +69,7 @@ const seedData = async () => {
     ]);
 
     console.log('|=> Creating trailers...');
-    await Trailer.create([
+    const trailers = await Trailer.create([
       {
         plateNumber: 'TRL-1111',
         capacity: 25000,
@@ -81,10 +90,35 @@ const seedData = async () => {
       },
     ]);
 
+    console.log('|=> Creating trips...');
+    await Trip.create([
+      {
+        origin: 'Casablanca',
+        destination: 'Marrakech',
+        distance: 240,
+        driverId: driver._id,
+        truckId: trucks[0]._id,
+        trailerId: trailers[0]._id,
+        status: 'to_do',
+        departureDate: null,
+      },
+      {
+        origin: 'Rabat',
+        destination: 'Tangier',
+        distance: 250,
+        driverId: driver2._id,
+        truckId: trucks[1]._id,
+        trailerId: trailers[1]._id,
+        status: 'to_do',
+        departureDate: null,
+      },
+    ]);
+
     console.log('\nData seeded successfully!');
     console.log('═════════════════════════════════════════');
     console.log('Admin:  admin@routexpert.com / admin123');
-    console.log('Driver: driver@routexpert.com / driver123');
+    console.log('Driver1: driver@routexpert.com / driver123');
+    console.log('Driver2: driver2@routexpert.com / driver123');
     console.log('═════════════════════════════════════════\n');
     
     process.exit(0);
