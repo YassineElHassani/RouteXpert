@@ -4,7 +4,7 @@ const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Authentication
+// Auth
 router.use(protect);
 
 router.get('/reports/consumption', authorize('admin'), getFuelConsumptionReport);

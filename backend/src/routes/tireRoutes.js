@@ -4,6 +4,7 @@ const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
 
+// Auth
 router.use(protect);
 
 router.get('/alerts/replacement', authorize('admin'), getTiresNeedingReplacement);
