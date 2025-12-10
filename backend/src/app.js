@@ -2,13 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const errorHandler = require('./middleware/errorHandler');
 
-// Route files
-const authRoutes = require('./routes/authRoutes');
-const truckRoutes = require('./routes/truckRoutes');
-const trailerRoutes = require('./routes/trailerRoutes');
-const tireRoutes = require('./routes/tireRoutes');
-const fuelRoutes = require('./routes/fuelRoutes');
-
 const app = express();
 
 // Middleware
@@ -21,12 +14,14 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK', message: 'Server is running' });
 });
 
-// Mount routers
-app.use('/api/auth', authRoutes);
-app.use('/api/trucks', truckRoutes);
-app.use('/api/trailers', trailerRoutes);
-app.use('/api/tires', tireRoutes);
-app.use('/api/fuel', fuelRoutes);
+// Routers
+app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/trucks', require('./routes/truckRoutes'));
+app.use('/api/trailers', require('./routes/trailerRoutes'));
+app.use('/api/tires', require('./routes/tireRoutes'));
+app.use('/api/fuel', require('./routes/fuelRoutes'));
+app.use('/api/trips', require('./routes/tripRoutes'));
+app.use('/api/maintenance', require('./routes/maintenanceRoutes'));
 
 // Error handler
 app.use(errorHandler);

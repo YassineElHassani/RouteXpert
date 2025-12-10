@@ -15,6 +15,10 @@ exports.register = async (req, res, next) => {
   try {
     const { name, email, password, role, phone } = req.body;
 
+    if (role === 'admin') {
+      return res.status(403).json({ message: 'Admin creation not allowed via public register' });
+    }
+
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: 'User already exists' });
@@ -24,7 +28,7 @@ exports.register = async (req, res, next) => {
       name,
       email,
       password,
-      role,
+      role: role || 'driver',
       phone,
     });
 
