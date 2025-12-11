@@ -30,7 +30,6 @@ const trailerSchema = new mongoose.Schema(
   }
 );
 
-trailerSchema.index({ plateNumber: 1 });
 trailerSchema.index({ status: 1 });
 
 module.exports = mongoose.model('Trailer', trailerSchema);

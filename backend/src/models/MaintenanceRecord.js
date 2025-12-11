@@ -42,18 +42,31 @@ const maintenanceRecordSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 
-// Validation: Must belong to either truck or trailer
-maintenanceRecordSchema.pre('save', function (next) {
-  if (this.truckId && this.trailerId) {
-    next(new Error('Maintenance cannot be for both truck and trailer'));
+// Custom validation for truckId/trailerId relationship
+maintenanceRecordSchema.path('truckId').validate(function(value) {
+  // If both are set, it's invalid
+  if (value && this.trailerId) {
+    throw new Error('Maintenance cannot be for both truck and trailer');
   }
-  if (!this.truckId && !this.trailerId) {
-    next(new Error('Maintenance must be for either truck or trailer'));
+  
+  if (!value && !this.trailerId) {
+    throw new Error('Maintenance must be for either truck or trailer');
   }
-  next();
+  return true;
+});
+
+maintenanceRecordSchema.path('trailerId').validate(function(value) {
+  // If both are set, it's invalid
+  if (value && this.truckId) {
+    throw new Error('Maintenance cannot be for both truck and trailer');
+  }
+
+  return true;
 });
 
 maintenanceRecordSchema.index({ truckId: 1, status: 1 });

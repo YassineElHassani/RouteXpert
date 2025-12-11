@@ -2,6 +2,9 @@ const Trip = require('../models/Trip');
 const User = require('../models/User');
 const Truck = require('../models/Truck');
 const Trailer = require('../models/Trailer');
+const path = require('path');
+const fs = require('fs');
+const { generateTripPDF } = require('../utils/pdfGenerator');
 
 // Get all trips
 // GET /api/trips
@@ -28,8 +31,8 @@ exports.getTrips = async (req, res, next) => {
         }
 
         const trips = await Trip.find(filter)
-        .populate('driverId', 'name email phone').populate('truckId', 'plateNumber brand model status')
-        .populate('trailerId', 'plateNumber capacity status').sort('-createdAt');
+            .populate('driverId', 'name email phone').populate('truckId', 'plateNumber brand model status')
+            .populate('trailerId', 'plateNumber capacity status').sort('-createdAt');
 
         res.status(200).json({
             success: true,
@@ -421,6 +424,55 @@ exports.getMyTrips = async (req, res, next) => {
             success: true,
             count: trips.length,
             data: trips,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+// Download trip as PDF
+// GET /api/trips/:id/pdf
+exports.downloadTripPDF = async (req, res, next) => {
+    try {
+        const trip = await Trip.findById(req.params.id).populate('driverId', 'name email phone').populate('truckId', 'plateNumber brand model mileage').populate('trailerId', 'plateNumber capacity mileage');
+
+        if (!trip) {
+            return res.status(404).json({
+                success: false,
+                error: 'Trip not found',
+            });
+        }
+
+        // Drivers can only download their own trips
+        if (req.user.role === 'driver' && trip.driverId._id.toString() !== req.user._id.toString()) {
+            return res.status(403).json({
+                success: false,
+                error: 'Not authorized to download this trip',
+            });
+        }
+
+        // Create pdfs directory if it doesn't exist
+        const pdfDir = path.join(__dirname, '../../pdfs');
+        if (!fs.existsSync(pdfDir)) {
+            fs.mkdirSync(pdfDir, { recursive: true });
+        }
+
+        // Generate PDF
+        const filename = `trip_${trip._id}_${Date.now()}.pdf`;
+        const filepath = path.join(pdfDir, filename);
+
+        await generateTripPDF(trip, filepath);
+
+        // Send file
+        res.download(filepath, `Mission_Order_${trip._id}.pdf`, (err) => {
+            if (err) {
+                console.error('Download error:', err);
+            }
+
+            // Delete file after download
+            fs.unlink(filepath, (unlinkErr) => {
+                if (unlinkErr) console.error('Error deleting PDF:', unlinkErr);
+            });
         });
     } catch (error) {
         next(error);

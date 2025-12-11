@@ -23,9 +23,10 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "jest --watchAll --verbose",
-    "test:coverage": "jest --coverage",
-    "seed": "node src/utils/seeder.js"
+    "seed": "node src/utils/seeder.js",
+    "test": "cross-env NODE_ENV=test jest --detectOpenHandles --forceExit",
+    "test:watch": "cross-env NODE_ENV=test jest --watch",
+    "test:coverage": "cross-env NODE_ENV=test jest --coverage --detectOpenHandles --forceExit"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -33,11 +34,14 @@
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.0.1"
+    "mongoose": "^9.0.1",
+    "pdfkit": "^0.17.2"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
+    "cross-env": "^10.1.0",
     "jest": "^30.2.0",
+    "mongodb-memory-server": "^10.4.1",
     "nodemon": "^3.1.11",
     "supertest": "^7.1.4"
   }

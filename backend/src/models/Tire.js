@@ -39,18 +39,31 @@ const tireSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 
-// Validation: Tire must belong to either truck or trailer, not both
-tireSchema.pre('save', function (next) {
-  if (this.truckId && this.trailerId) {
-    next(new Error('Tire cannot belong to both truck and trailer'));
+// Custom validation for truckId/trailerId relationship
+tireSchema.path('truckId').validate(function(value) {
+  // If both are set, it's invalid
+  if (value && this.trailerId) {
+    throw new Error('Tire cannot belong to both truck and trailer');
   }
-  if (!this.truckId && !this.trailerId) {
-    next(new Error('Tire must belong to either truck or trailer'));
+  
+  if (!value && !this.trailerId) {
+    throw new Error('Tire must belong to either truck or trailer');
   }
-  next();
+  return true;
+});
+
+tireSchema.path('trailerId').validate(function(value) {
+  // If both are set, it's invalid
+  if (value && this.truckId) {
+    throw new Error('Tire cannot belong to both truck and trailer');
+  }
+  
+  return true;
 });
 
 tireSchema.index({ truckId: 1 });

@@ -9,7 +9,10 @@ exports.protect = async (req, res, next) => {
     }
 
     if (!token) {
-        return res.status(401).json({ message: 'Not authorized, no token' });
+        return res.status(401).json({ 
+          success: false,
+          error: 'Not authorized, no token' 
+        });
     }
 
     try {
@@ -17,25 +20,35 @@ exports.protect = async (req, res, next) => {
         const user = await User.findById(decoded.id);
 
         if (!user) {
-            return res.status(401).json({ message: 'Not authorized, user not found' });
+            return res.status(401).json({ 
+              success: false,
+              error: 'Not authorized, user not found' 
+            });
         }
 
         req.user = user;
         next();
     } catch (error) {
         console.error(error);
-        return res.status(401).json({ message: 'Not authorized, token failed' });
+        return res.status(401).json({ 
+          success: false,
+          error: 'Not authorized, token failed' 
+        });
     }
 };
 
 exports.authorize = (...roles) => {
     return (req, res, next) => {
         if (!req.user.role) {
-            return res.status(401).json({ message: 'User role not found' });
+            return res.status(401).json({ 
+              success: false,
+              error: 'User role not found' 
+            });
         }
         if (!roles.includes(req.user.role)) {
             return res.status(403).json({
-                message: `User role ${req.user.role} is not authorized to access this route`,
+                success: false,
+                error: `User role ${req.user.role} is not authorized to access this route`,
             });
         }
         next();

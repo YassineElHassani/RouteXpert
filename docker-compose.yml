@@ -8,10 +8,18 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: routexpert
+    ports:
+      - "27018:27017"
     volumes:
       - mongo_data:/data/db
     networks:
       - routexpert-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   backend:
     build: ./backend
@@ -23,10 +31,16 @@ services:
       PORT: 5000
       MONGO_URI: mongodb://admin:admin123@mongo:27017/routexpert?authSource=admin
       JWT_SECRET: supersecretjwt
+      JWT_EXPIRE: 7d
+      NODE_ENV: production
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
     networks:
       - routexpert-network
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
 
   frontend:
     build: ./frontend

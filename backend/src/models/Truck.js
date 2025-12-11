@@ -42,7 +42,6 @@ const truckSchema = new mongoose.Schema(
 );
 
 // Index for faster queries
-truckSchema.index({ plateNumber: 1 });
 truckSchema.index({ status: 1 });
 
 module.exports = mongoose.model('Truck', truckSchema);

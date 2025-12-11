@@ -16,12 +16,18 @@ exports.register = async (req, res, next) => {
     const { name, email, password, role, phone } = req.body;
 
     if (role === 'admin') {
-      return res.status(403).json({ message: 'Admin creation not allowed via public register' });
+      return res.status(403).json({ 
+        success: false,
+        error: 'Admin creation not allowed via public register' 
+      });
     }
 
     const userExists = await User.findOne({ email });
     if (userExists) {
-      return res.status(400).json({ message: 'User already exists' });
+      return res.status(400).json({ 
+        success: false,
+        error: 'User already exists' 
+      });
     }
 
     const user = await User.create({
@@ -36,8 +42,8 @@ exports.register = async (req, res, next) => {
 
     res.status(201).json({
       success: true,
-      token,
-      user: {
+      data: {
+        token,
         id: user._id,
         name: user.name,
         email: user.email,
@@ -56,27 +62,36 @@ exports.login = async (req, res, next) => {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            return res.status(400).json({ message: 'Please provide an email and password' });
+            return res.status(400).json({ 
+              success: false,
+              error: 'Please provide an email and password' 
+            });
         }
 
         const user = await User.findOne({ email }).select('+password');
 
         if (!user) {
-            return res.status(401).json({ message: 'Invalid credentials' });
+            return res.status(401).json({ 
+              success: false,
+              error: 'Invalid credentials' 
+            });
         }
 
         const isMatch = await user.matchPassword(password);
 
         if (!isMatch) {
-            return res.status(401).json({ message: 'Invalid credentials' });
+            return res.status(401).json({ 
+              success: false,
+              error: 'Invalid credentials' 
+            });
         }
 
         const token = generateToken(user._id);
 
         res.status(200).json({
             success: true,
-            token,
-            user: {
+            data: {
+                token,
                 id: user._id,
                 name: user.name,
                 email: user.email,

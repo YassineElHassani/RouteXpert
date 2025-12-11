@@ -1,0 +1,1233 @@
+{
+	"info": {
+		"_postman_id": "routexpert-collection-id",
+		"name": "RouteXpert API",
+		"description": "Complete API collection for RouteXpert - Truck Fleet Management System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/health",
+					"host": ["{{url}}"],
+					"path": ["health"]
+				}
+			}
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register Driver",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.success && jsonData.data.token) {",
+									"    pm.collectionVariables.set(\"token\", jsonData.data.token);",
+									"    console.log(\"Token: \" + jsonData.data.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"New Driver\",\n    \"email\": \"driver@routexpert.com\",\n    \"password\": \"password123\",\n    \"role\": \"driver\",\n    \"phone\": \"+212600000001\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/auth/register",
+							"host": ["{{url}}"],
+							"path": ["api", "auth", "register"]
+						}
+					}
+				},
+				{
+					"name": "Login Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.success && jsonData.data.token) {",
+									"    pm.collectionVariables.set(\"token\", jsonData.data.token);",
+									"    console.log(\"Token: \" + jsonData.data.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@routexpert.com\",\n    \"password\": \"admin123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/auth/login",
+							"host": ["{{url}}"],
+							"path": ["api", "auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Login Driver",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.success && jsonData.data.token) {",
+									"    pm.collectionVariables.set(\"token\", jsonData.data.token);",
+									"    console.log(\"Token: \" + jsonData.data.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"driver@routexpert.com\",\n    \"password\": \"password123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/auth/login",
+							"host": ["{{url}}"],
+							"path": ["api", "auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/auth/me",
+							"host": ["{{url}}"],
+							"path": ["api", "auth", "me"]
+						}
+					}
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/auth/logout",
+							"host": ["{{url}}"],
+							"path": ["api", "auth", "logout"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Trucks",
+			"item": [
+				{
+					"name": "Get All Trucks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/trucks",
+							"host": ["{{url}}"],
+							"path": ["api", "trucks"]
+						}
+					}
+				},
+				{
+					"name": "Get Single Truck",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/trucks/:id",
+							"host": ["{{url}}"],
+							"path": ["api", "trucks", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "truck_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Truck (Admin)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"plateNumber\": \"ABC-1234\",\n    \"brand\": \"Mercedes\",\n    \"model\": \"Actros\",\n    \"year\": 2022,\n    \"mileage\": 50000,\n    \"status\": \"available\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/trucks",
+							"host": ["{{url}}"],
+							"path": ["api", "trucks"]
+						}
+					}
+				},
+				{
+					"name": "Update Truck (Admin)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"brand\": \"Mercedes\",\n    \"model\": \"Actros 1845\",\n    \"status\": \"in_use\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/trucks/:id",
+							"host": ["{{url}}"],
+							"path": ["api", "trucks", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "truck_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Truck (Admin)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/trucks/:id",
+							"host": ["{{url}}"],
+							"path": ["api", "trucks", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "truck_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Truck Mileage",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mileage\": 55000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/trucks/:id/mileage",
+							"host": ["{{url}}"],
+							"path": ["api", "trucks", ":id", "mileage"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "truck_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Truck Tires",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/trucks/:truckId/tires",
+							"host": ["{{url}}"],
+							"path": ["api", "trucks", ":truckId", "tires"],
+							"variable": [
+								{
+									"key": "truckId",
+									"value": "truck_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Truck Fuel Records",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/trucks/:truckId/fuel",
+							"host": ["{{url}}"],
+							"path": ["api", "trucks", ":truckId", "fuel"],
+							"variable": [
+								{
+									"key": "truckId",
+									"value": "truck_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Truck Maintenance (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/trucks/:truckId/maintenance",
+							"host": ["{{url}}"],
+							"path": ["api", "trucks", ":truckId", "maintenance"],
+							"variable": [
+								{
+									"key": "truckId",
+									"value": "truck_id_here"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Trailers",
+			"item": [
+				{
+					"name": "Get All Trailers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/trailers",
+							"host": ["{{url}}"],
+							"path": ["api", "trailers"]
+						}
+					}
+				},
+				{
+					"name": "Get Single Trailer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/trailers/:id",
+							"host": ["{{url}}"],
+							"path": ["api", "trailers", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "trailer_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Trailer (Admin)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"plateNumber\": \"TRL-5678\",\n    \"capacity\": 25000,\n    \"mileage\": 30000,\n    \"status\": \"available\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/trailers",
+							"host": ["{{url}}"],
+							"path": ["api", "trailers"]
+						}
+					}
+				},
+				{
+					"name": "Update Trailer (Admin)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"capacity\": 28000,\n    \"status\": \"maintenance\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/trailers/:id",
+							"host": ["{{url}}"],
+							"path": ["api", "trailers", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "trailer_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Trailer (Admin)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/trailers/:id",
+							"host": ["{{url}}"],
+							"path": ["api", "trailers", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "trailer_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Trailer Tires",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/trailers/:trailerId/tires",
+							"host": ["{{url}}"],
+							"path": ["api", "trailers", ":trailerId", "tires"],
+							"variable": [
+								{
+									"key": "trailerId",
+									"value": "trailer_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Trailer Maintenance (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/trailers/:trailerId/maintenance",
+							"host": ["{{url}}"],
+							"path": ["api", "trailers", ":trailerId", "maintenance"],
+							"variable": [
+								{
+									"key": "trailerId",
+									"value": "trailer_id_here"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Tires",
+			"item": [
+				{
+					"name": "Get All Tires",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/tires?condition=good",
+							"host": ["{{url}}"],
+							"path": ["api", "tires"],
+							"query": [
+								{
+									"key": "condition",
+									"value": "good",
+									"description": "Filter by condition: good, worn, needs_replacement",
+									"disabled": true
+								},
+								{
+									"key": "truckId",
+									"value": "",
+									"description": "Filter by truck ID",
+									"disabled": true
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Tires Needing Replacement (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/tires/alerts/replacement",
+							"host": ["{{url}}"],
+							"path": ["api", "tires", "alerts", "replacement"]
+						}
+					}
+				},
+				{
+					"name": "Get Single Tire",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/tires/:id",
+							"host": ["{{url}}"],
+							"path": ["api", "tires", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "tire_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Tire (Admin)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"truckId\": \"truck_id_here\",\n    \"position\": \"front_left\",\n    \"brand\": \"Michelin\",\n    \"installDate\": \"2024-01-15\",\n    \"condition\": \"good\",\n    \"mileageAtInstall\": 50000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/tires",
+							"host": ["{{url}}"],
+							"path": ["api", "tires"]
+						}
+					}
+				},
+				{
+					"name": "Update Tire (Admin)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"condition\": \"worn\",\n    \"brand\": \"Michelin X Line\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/tires/:id",
+							"host": ["{{url}}"],
+							"path": ["api", "tires", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "tire_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Tire Condition",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"condition\": \"needs_replacement\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/tires/:id/condition",
+							"host": ["{{url}}"],
+							"path": ["api", "tires", ":id", "condition"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "tire_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Tire (Admin)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/tires/:id",
+							"host": ["{{url}}"],
+							"path": ["api", "tires", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "tire_id_here"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Fuel",
+			"item": [
+				{
+					"name": "Get All Fuel Records",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/fuel?truckId=&startDate=&endDate=",
+							"host": ["{{url}}"],
+							"path": ["api", "fuel"],
+							"query": [
+								{
+									"key": "truckId",
+									"value": "",
+									"description": "Filter by truck ID",
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "",
+									"description": "Filter by start date",
+									"disabled": true
+								},
+								{
+									"key": "endDate",
+									"value": "",
+									"description": "Filter by end date",
+									"disabled": true
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Fuel Consumption Report (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/fuel/reports/consumption?truckId=&startDate=&endDate=",
+							"host": ["{{url}}"],
+							"path": ["api", "fuel", "reports", "consumption"],
+							"query": [
+								{
+									"key": "truckId",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "endDate",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Single Fuel Record",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/fuel/:id",
+							"host": ["{{url}}"],
+							"path": ["api", "fuel", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "fuel_record_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Fuel Record",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"truckId\": \"truck_id_here\",\n    \"tripId\": \"trip_id_here\",\n    \"volume\": 150,\n    \"pricePerLiter\": 1.45,\n    \"station\": \"Total Station - Casablanca\",\n    \"mileage\": 55000,\n    \"date\": \"2024-12-11\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/fuel",
+							"host": ["{{url}}"],
+							"path": ["api", "fuel"]
+						}
+					}
+				},
+				{
+					"name": "Update Fuel Record (Admin)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"volume\": 155,\n    \"pricePerLiter\": 1.48\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/fuel/:id",
+							"host": ["{{url}}"],
+							"path": ["api", "fuel", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "fuel_record_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Fuel Record (Admin)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/fuel/:id",
+							"host": ["{{url}}"],
+							"path": ["api", "fuel", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "fuel_record_id_here"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Trips",
+			"item": [
+				{
+					"name": "Get All Trips",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/trips?status=&driverId=&startDate=&endDate=",
+							"host": ["{{url}}"],
+							"path": ["api", "trips"],
+							"query": [
+								{
+									"key": "status",
+									"value": "",
+									"description": "Filter: to_do, in_progress, completed",
+									"disabled": true
+								},
+								{
+									"key": "driverId",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "endDate",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get My Trips (Driver)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/trips/my-trips",
+							"host": ["{{url}}"],
+							"path": ["api", "trips", "my-trips"]
+						}
+					}
+				},
+				{
+					"name": "Get Single Trip",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/trips/:id",
+							"host": ["{{url}}"],
+							"path": ["api", "trips", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "trip_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Trip (Admin)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"origin\": \"Casablanca\",\n    \"destination\": \"Marrakech\",\n    \"distance\": 240,\n    \"driverId\": \"driver_id_here\",\n    \"truckId\": \"truck_id_here\",\n    \"trailerId\": \"trailer_id_here\",\n    \"departureDate\": \"2024-12-15T08:00:00Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/trips",
+							"host": ["{{url}}"],
+							"path": ["api", "trips"]
+						}
+					}
+				},
+				{
+					"name": "Update Trip (Admin)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"destination\": \"Agadir\",\n    \"distance\": 450\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/trips/:id",
+							"host": ["{{url}}"],
+							"path": ["api", "trips", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "trip_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Trip Status",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"in_progress\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/trips/:id/status",
+							"host": ["{{url}}"],
+							"path": ["api", "trips", ":id", "status"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "trip_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Trip Mileage",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mileageStart\": 55000,\n    \"mileageEnd\": 55240,\n    \"dieselVolume\": 45\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/trips/:id/mileage",
+							"host": ["{{url}}"],
+							"path": ["api", "trips", ":id", "mileage"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "trip_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Download Trip PDF",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/trips/:id/pdf",
+							"host": ["{{url}}"],
+							"path": ["api", "trips", ":id", "pdf"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "trip_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Trip Fuel Records",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/trips/:tripId/fuel",
+							"host": ["{{url}}"],
+							"path": ["api", "trips", ":tripId", "fuel"],
+							"variable": [
+								{
+									"key": "tripId",
+									"value": "trip_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Trip (Admin)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/trips/:id",
+							"host": ["{{url}}"],
+							"path": ["api", "trips", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "trip_id_here"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Maintenance (Admin Only)",
+			"item": [
+				{
+					"name": "Get All Maintenance Records",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/maintenance?status=&type=&truckId=",
+							"host": ["{{url}}"],
+							"path": ["api", "maintenance"],
+							"query": [
+								{
+									"key": "status",
+									"value": "",
+									"description": "Filter: pending, scheduled, completed",
+									"disabled": true
+								},
+								{
+									"key": "type",
+									"value": "",
+									"description": "Filter: tire_change, oil_change, service, repair",
+									"disabled": true
+								},
+								{
+									"key": "truckId",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Pending Maintenance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/maintenance/alerts/pending",
+							"host": ["{{url}}"],
+							"path": ["api", "maintenance", "alerts", "pending"]
+						}
+					}
+				},
+				{
+					"name": "Get Overdue Maintenance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/maintenance/alerts/overdue",
+							"host": ["{{url}}"],
+							"path": ["api", "maintenance", "alerts", "overdue"]
+						}
+					}
+				},
+				{
+					"name": "Get Single Maintenance Record",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/maintenance/:id",
+							"host": ["{{url}}"],
+							"path": ["api", "maintenance", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "maintenance_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Maintenance Record",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"truckId\": \"truck_id_here\",\n    \"type\": \"oil_change\",\n    \"scheduledDate\": \"2024-12-20T10:00:00Z\",\n    \"mileageAtMaintenance\": 60000,\n    \"intervalKm\": 10000,\n    \"status\": \"scheduled\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/maintenance",
+							"host": ["{{url}}"],
+							"path": ["api", "maintenance"]
+						}
+					}
+				},
+				{
+					"name": "Update Maintenance Record",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"scheduledDate\": \"2024-12-22T10:00:00Z\",\n    \"status\": \"pending\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/maintenance/:id",
+							"host": ["{{url}}"],
+							"path": ["api", "maintenance", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "maintenance_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Complete Maintenance",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"completedDate\": \"2024-12-11T14:30:00Z\",\n    \"mileageAtMaintenance\": 60500\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/maintenance/:id/complete",
+							"host": ["{{url}}"],
+							"path": ["api", "maintenance", ":id", "complete"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "maintenance_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Maintenance Record",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/maintenance/:id",
+							"host": ["{{url}}"],
+							"path": ["api", "maintenance", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "maintenance_id_here"
+								}
+							]
+						}
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
