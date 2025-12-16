@@ -159,6 +159,8 @@ exports.updateTire = async (req, res, next) => {
     }
 };
 
+
+
 // Update tire condition
 // PATCH /api/tires/:id/condition
 exports.updateTireCondition = async (req, res, next) => {

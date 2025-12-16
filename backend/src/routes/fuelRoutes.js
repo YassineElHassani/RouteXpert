@@ -7,8 +7,8 @@ const router = express.Router();
 // Auth
 router.use(protect);
 
-router.get('/reports/consumption', authorize('admin'), getFuelConsumptionReport);
+router.get('/reports/consumption', getFuelConsumptionReport);
 router.route('/').get(getFuelRecords).post(createFuelRecord);
-router.route('/:id').get(getFuelRecord).put(authorize('admin'), updateFuelRecord).delete(authorize('admin'), deleteFuelRecord);
+router.route('/:id').get(getFuelRecord).put(updateFuelRecord).delete(deleteFuelRecord);
 
 module.exports = router;

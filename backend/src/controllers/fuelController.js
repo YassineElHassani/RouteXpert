@@ -9,7 +9,16 @@ exports.getFuelRecords = async (req, res, next) => {
         const { tripId, truckId, startDate, endDate } = req.query;
 
         let filter = {};
-        if (tripId) filter.tripId = tripId;
+        
+        // If user is driver, only show fuel records for their trips
+        if (req.user.role === 'driver') {
+            const driverTrips = await Trip.find({ driverId: req.user._id }).select('_id');
+            const tripIds = driverTrips.map(trip => trip._id);
+            filter.tripId = { $in: tripIds };
+        } else {
+            if (tripId) filter.tripId = tripId;
+        }
+        
         if (truckId) filter.truckId = truckId;
 
         // Date range filter
@@ -115,14 +124,23 @@ exports.getTruckFuelRecords = async (req, res, next) => {
 // POST /api/fuel
 exports.createFuelRecord = async (req, res, next) => {
     try {
-        const { tripId, truckId } = req.body;
+        const { tripId, truckId, volume, pricePerLiter } = req.body;
 
-        const trip = await Trip.findById(tripId);
-        if (!trip) {
-            return res.status(404).json({
-                success: false,
-                error: 'Trip not found',
-            });
+        if (tripId) {
+            const trip = await Trip.findById(tripId);
+            if (!trip) {
+                return res.status(404).json({
+                    success: false,
+                    error: 'Trip not found',
+                });
+            }
+
+            if (trip.truckId.toString() !== truckId) {
+                return res.status(400).json({
+                    success: false,
+                    error: 'Truck does not match the trip',
+                });
+            }
         }
 
         const truck = await Truck.findById(truckId);
@@ -133,14 +151,16 @@ exports.createFuelRecord = async (req, res, next) => {
             });
         }
 
-        if (trip.truckId.toString() !== truckId) {
-            return res.status(400).json({
-                success: false,
-                error: 'Truck does not match the trip',
-            });
-        }
+        // Calculate total cost
+        const cost = (volume && pricePerLiter) ? (volume * pricePerLiter) : 0;
 
-        const fuelRecord = await FuelRecord.create(req.body);
+        // Remove cost from body to avoid overwriting calculated value
+        const { cost: bodyCost, ...bodyData } = req.body;
+
+        const fuelRecord = await FuelRecord.create({
+            ...bodyData,
+            cost,
+        });
 
         res.status(201).json({
             success: true,
@@ -155,14 +175,7 @@ exports.createFuelRecord = async (req, res, next) => {
 // PUT /api/fuel/:id
 exports.updateFuelRecord = async (req, res, next) => {
     try {
-        const fuelRecord = await FuelRecord.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            {
-                new: true,
-                runValidators: true,
-            }
-        );
+        let fuelRecord = await FuelRecord.findById(req.params.id);
 
         if (!fuelRecord) {
             return res.status(404).json({
@@ -170,6 +183,21 @@ exports.updateFuelRecord = async (req, res, next) => {
                 error: 'Fuel record not found',
             });
         }
+
+        // Update fields
+        const fieldsToUpdate = ['truckId', 'tripId', 'date', 'volume', 'pricePerLiter', 'station', 'mileage'];
+        fieldsToUpdate.forEach(field => {
+            if (req.body[field] !== undefined) {
+                fuelRecord[field] = req.body[field];
+            }
+        });
+
+        // Recalculate cost
+        if (fuelRecord.volume && fuelRecord.pricePerLiter) {
+            fuelRecord.cost = fuelRecord.volume * fuelRecord.pricePerLiter;
+        }
+
+        await fuelRecord.save();
 
         res.status(200).json({
             success: true,

@@ -22,6 +22,7 @@ app.use('/api/tires', require('./routes/tireRoutes'));
 app.use('/api/fuel', require('./routes/fuelRoutes'));
 app.use('/api/trips', require('./routes/tripRoutes'));
 app.use('/api/maintenance', require('./routes/maintenanceRoutes'));
+app.use('/api/maintenance-rules', require('./routes/maintenanceRuleRoutes'));
 
 // Error handler
 app.use(errorHandler);

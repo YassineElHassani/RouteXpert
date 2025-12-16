@@ -5,7 +5,7 @@ const fuelRecordSchema = new mongoose.Schema(
     tripId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Trip',
-      required: [true, 'Trip is required'],
+      default: null,
     },
     truckId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -17,19 +17,27 @@ const fuelRecordSchema = new mongoose.Schema(
       required: [true, 'Volume is required'],
       min: [0, 'Volume cannot be negative'],
     },
+    pricePerLiter: {
+      type: Number,
+      required: [true, 'Price per liter is required'],
+      min: [0, 'Price cannot be negative'],
+    },
     cost: {
       type: Number,
-      required: [true, 'Cost is required'],
-      min: [0, 'Cost cannot be negative'],
+      default: 0,
     },
     date: {
       type: Date,
       default: Date.now,
     },
-    location: {
+    station: {
       type: String,
       trim: true,
-      default: '',
+      required: [true, 'Station is required'],
+    },
+    mileage: {
+      type: Number,
+      min: [0, 'Mileage cannot be negative'],
     },
   },
   {

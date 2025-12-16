@@ -292,7 +292,7 @@ exports.updateTripStatus = async (req, res, next) => {
 // PATCH /api/trips/:id/mileage
 exports.updateTripMileage = async (req, res, next) => {
     try {
-        const { mileageStart, mileageEnd, dieselVolume } = req.body;
+        const { mileageStart, mileageEnd, dieselVolume, notes } = req.body;
 
         let trip = await Trip.findById(req.params.id);
 
@@ -330,6 +330,7 @@ exports.updateTripMileage = async (req, res, next) => {
         if (mileageStart !== undefined) trip.mileageStart = mileageStart;
         if (mileageEnd !== undefined) trip.mileageEnd = mileageEnd;
         if (dieselVolume !== undefined) trip.dieselVolume = dieselVolume;
+        if (notes !== undefined) trip.notes = notes;
 
         await trip.save();
 

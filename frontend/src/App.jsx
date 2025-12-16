@@ -17,9 +17,12 @@ import Fuel from './pages/dashboard/Fuel';
 import FuelForm from './pages/dashboard/FuelForm';
 import Maintenance from './pages/dashboard/Maintenance';
 import MaintenanceForm from './pages/dashboard/MaintenanceForm';
+import MaintenanceRules from './pages/dashboard/MaintenanceRules';
+import MaintenanceRuleForm from './pages/dashboard/MaintenanceRuleForm';
 import Drivers from './pages/dashboard/Drivers';
 import DriverForm from './pages/dashboard/DriverForm';
 import Reports from './pages/dashboard/Reports';
+import Profile from './pages/dashboard/Profile';
 import Unauthorized from './pages/Unauthorized';
 import NotFound from './pages/NotFound';
 import ProtectedRoute from './components/layout/ProtectedRoute';
@@ -56,10 +59,14 @@ function App() {
             <Route path="maintenance" element={<Maintenance />} />
             <Route path="maintenance/add" element={<MaintenanceForm />} />
             <Route path="maintenance/edit/:id" element={<MaintenanceForm />} />
+            <Route path="maintenance-rules" element={<MaintenanceRules />} />
+            <Route path="maintenance-rules/add" element={<MaintenanceRuleForm />} />
+            <Route path="maintenance-rules/edit/:id" element={<MaintenanceRuleForm />} />
             <Route path="drivers" element={<Drivers />} />
             <Route path="drivers/add" element={<DriverForm />} />
             <Route path="drivers/edit/:id" element={<DriverForm />} />
             <Route path="reports" element={<Reports />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
         </Route>
 

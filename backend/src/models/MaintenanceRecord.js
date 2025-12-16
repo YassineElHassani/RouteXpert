@@ -15,7 +15,13 @@ const maintenanceRecordSchema = new mongoose.Schema(
     type: {
       type: String,
       required: [true, 'Maintenance type is required'],
-      enum: ['tire_change', 'oil_change', 'service', 'repair'],
+      trim: true,
+      // Type should match categories from MaintenanceRule model
+      // Removed strict enum to allow dynamic categories from maintenance rules
+    },
+    description: {
+      type: String,
+      trim: true,
     },
     scheduledDate: {
       type: Date,
@@ -30,10 +36,19 @@ const maintenanceRecordSchema = new mongoose.Schema(
       default: null,
       min: [0, 'Mileage cannot be negative'],
     },
+    cost: {
+      type: Number,
+      min: [0, 'Cost cannot be negative'],
+      default: null,
+    },
     status: {
       type: String,
-      enum: ['pending', 'scheduled', 'completed'],
+      enum: ['pending', 'scheduled', 'completed', 'overdue'],
       default: 'pending',
+    },
+    notes: {
+      type: String,
+      trim: true,
     },
     intervalKm: {
       type: Number,

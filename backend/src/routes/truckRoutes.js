@@ -3,6 +3,7 @@ const { getTrucks, getTruck, createTruck, updateTruck, deleteTruck, updateTruckM
 const { getTruckTires } = require('../controllers/tireController');
 const { getTruckFuelRecords } = require('../controllers/fuelController');
 const { getTruckMaintenance } = require('../controllers/maintenanceController');
+const { getUpcomingMaintenance } = require('../controllers/maintenanceRuleController');
 const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
@@ -16,5 +17,6 @@ router.route('/:id/mileage').patch(updateTruckMileage);
 router.get('/:truckId/tires', getTruckTires);
 router.get('/:truckId/fuel', getTruckFuelRecords);
 router.get('/:truckId/maintenance', authorize('admin'), getTruckMaintenance);
+router.get('/:truckId/upcoming-maintenance', getUpcomingMaintenance);
 
 module.exports = router;

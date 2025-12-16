@@ -127,3 +127,19 @@ exports.logout = async (req, res, next) => {
         message: 'Successfully logged out'
     });
 };
+
+// Get all users (Admin only)
+// GET /api/auth/users
+exports.getUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({});
+    res.status(200).json({
+      success: true,
+      count: users.length,
+      data: users,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+

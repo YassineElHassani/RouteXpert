@@ -1,0 +1,22 @@
+# Docker ignore patterns for backend
+node_modules
+npm-debug.log
+coverage
+.env
+.env.test
+.env.local
+.env.production
+*.log
+.git
+.gitignore
+README.md
+.vscode
+.idea
+*.md
+!package.json
+!package-lock.json
+tests/
+*.test.js
+jest.config.js
+.github
+pdfs/*.pdf
