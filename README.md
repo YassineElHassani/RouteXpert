@@ -1,9 +1,9 @@
 # RouteXpert
 Truck fleet trip, fuel and maintenance tracking application
 
-[![Backend CI/CD](https://github.com/YassineElHassani/RouteXpert/actions/workflows/backend-ci.yml/badge.svg)](https://github.com/YassineElHassani/RouteXpert/actions/workflows/backend-ci.yml)
-[![Frontend CI/CD](https://github.com/YassineElHassani/RouteXpert/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/YassineElHassani/RouteXpert/actions/workflows/frontend-ci.yml)
-[![Full Stack CI](https://github.com/YassineElHassani/RouteXpert/actions/workflows/ci.yml/badge.svg)](https://github.com/YassineElHassani/RouteXpert/actions/workflows/ci.yml)
+// [![Backend CI/CD](https://github.com/YassineElHassani/RouteXpert/actions/workflows/backend-ci.yml/badge.svg)](https://github.com/YassineElHassani/RouteXpert/actions/workflows/backend-ci.yml)
+// [![Frontend CI/CD](https://github.com/YassineElHassani/RouteXpert/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/YassineElHassani/RouteXpert/actions/workflows/frontend-ci.yml)
+// [![Full Stack CI](https://github.com/YassineElHassani/RouteXpert/actions/workflows/ci.yml/badge.svg)](https://github.com/YassineElHassani/RouteXpert/actions/workflows/ci.yml)
 
 ## Features
 
